@@ -30,7 +30,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        @auth
+                            <a href="{{ route('todo.create') }}" type="button" class="btn btn-primary">Create todo</a>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
