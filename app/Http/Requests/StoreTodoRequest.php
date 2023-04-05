@@ -23,7 +23,7 @@ class StoreTodoRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'content' => 'nullable'
+            'description' => 'nullable'
         ];
     }
 }

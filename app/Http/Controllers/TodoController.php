@@ -13,15 +13,6 @@ class TodoController extends Controller
     {
     }
 
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('todo.index');
-    }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -39,7 +30,8 @@ class TodoController extends Controller
             $request->validated(),
             auth()->id()
         );
-        return redirect()->route('home')
+        return redirect()
+            ->route('todo.index')
             ->with('alert', 'Todo created!');
     }
 

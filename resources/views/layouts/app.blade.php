@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    @livewireStyles
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -75,8 +75,9 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            @yield('content',  $slot ?? '')
         </main>
     </div>
+    @livewireScripts
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TodoController;
+use App\Http\Livewire\Todo\TodoTable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,13 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('todo', TodoController::class);
+    Route::get('todo', TodoTable::class)->name('todo.index');
+    Route::get('', TodoTable::class)->name('todo.index');
+    Route::resource('todo', TodoController::class, ['except' => 'index']);
 });
