@@ -14,4 +14,15 @@ class TodoService
         $todo->author_id = $id;
         $todo->save();
     }
+
+    /**
+     * @param Todo $todo
+     * @param mixed $validated
+     * @return void
+     */
+    public function update(Todo $todo, mixed $validated)
+    {
+        $todo = $todo->fill($validated);
+        $todo->save();
+    }
 }

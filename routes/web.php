@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('todo', TodoTable::class)->name('todo.index');
     Route::get('', TodoTable::class)->name('todo.index');
+    Route::get('todo', TodoTable::class)->name('todo.index');
     Route::resource('todo', TodoController::class, ['except' => 'index']);
 });
