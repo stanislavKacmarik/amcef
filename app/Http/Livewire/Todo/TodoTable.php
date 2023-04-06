@@ -16,7 +16,7 @@ class TodoTable extends Component
 
     public function mount()
     {
-        $this->todos = Todo::all();
+        $this->todos = Todo::with('category')->get();
     }
 
     public function render()

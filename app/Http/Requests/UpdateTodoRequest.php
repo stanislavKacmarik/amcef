@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\TodoStatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateTodoRequest extends FormRequest
 {
@@ -24,7 +26,8 @@ class UpdateTodoRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'nullable',
-            'category_id' => 'required|exists:todo_categories,id'
+            'category_id' => 'required|exists:todo_categories,id',
+            'status' => 'nullable',
         ];
     }
 }

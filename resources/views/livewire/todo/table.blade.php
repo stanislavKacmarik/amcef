@@ -9,7 +9,7 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-12">
                 @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}
@@ -20,6 +20,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
+                        <th>Category</th>
                     </tr>
                     </thead>
                     <tbody>

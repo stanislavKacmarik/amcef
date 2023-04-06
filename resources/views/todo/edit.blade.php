@@ -36,6 +36,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input"
+                               value="{{\App\TodoStatusEnum::Done->value}}"
+                               @checked(old('status', $todo->status->value) === \App\TodoStatusEnum::Done->value  )
+                               @disabled( $todo->status->value === \App\TodoStatusEnum::Done->value )
+                               name="status" type="checkbox" id="status">
+                        <label class="form-check-label" for="status"
+                        >{{$todo->status->value === \App\TodoStatusEnum::Done->value ? 'Done': 'Mark as done'}}</label>
+                    </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\TodoStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +21,7 @@ return new class extends Migration {
                 ->nullable();
             $table->foreignId('category_id')
                 ->constrained('todo_categories');
+            $table->string('status')->default(TodoStatusEnum::Pending->value);
             $table->timestamps();
             $table->softDeletes();
         });
