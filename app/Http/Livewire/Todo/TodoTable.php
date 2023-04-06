@@ -14,17 +14,13 @@ class TodoTable extends Component
 
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap';
-
     /**
      * @var Collection<TodoCategory>
      */
     public Collection $categories;
-
     public string $category_id = '';
-
     public string $status = '';
-
+    protected $paginationTheme = 'bootstrap';
 
     public function mount()
     {
@@ -55,6 +51,7 @@ class TodoTable extends Component
             ->when($this->status, function ($q) {
                 return $q->where('status', $this->status);
             })
+            ->where('author_id', auth()->id())
             ->paginate(10);
     }
 }
