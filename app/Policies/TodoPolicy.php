@@ -36,7 +36,8 @@ class TodoPolicy
      */
     public function update(User $user, Todo $todo): bool
     {
-        return $user->id === $todo->author_id;
+        return $user->id === $todo->author_id ||
+            $todo->sharedUsers()->where('id', $user->id)->exists();
     }
 
     /**

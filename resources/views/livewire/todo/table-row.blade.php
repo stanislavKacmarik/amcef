@@ -8,6 +8,7 @@
         @endif
     </td>
     <td>{{$todo->description}}</td>
+    <td>{{$todo->author->id === Auth::user()->id ? 'you' : $todo->author->email }}</td>
     <td>{{$todo->category->title}}</td>
     <td>
         <a href="{{route('todo.edit', ['todo' => $todo->id])}}">

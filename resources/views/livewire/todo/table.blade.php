@@ -21,6 +21,7 @@
                         <th>Name</th>
                         <th>Status</th>
                         <th>Description</th>
+                        <th>Owner</th>
                         <th>Category</th>
                         <th>Action</th>
                     </tr>
@@ -34,7 +35,14 @@
                                 @endforeach
                             </select>
                         </th>
-                        <th>Description</th>
+                        <th></th>
+                        <th>
+                            <select wire:model="visibility" class="form-select" aria-label="All">
+                                <option value="all">All</option>
+                                <option value="only_shared">Only shared</option>
+                                <option value="only_mine">Only mine</option>
+                            </select>
+                        </th>
                         <th>
                             <select wire:model="category_id" class="form-select" name="category_id" aria-label="All">
                                 <option value="">All</option>

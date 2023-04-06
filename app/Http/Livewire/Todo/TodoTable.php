@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Todo;
 use App\Models\Todo;
 use App\Models\TodoCategory;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -20,6 +21,10 @@ class TodoTable extends Component
     public Collection $categories;
     public string $category_id = '';
     public string $status = '';
+
+    // all, only_shared, only_mine
+    public string $visibility = 'all';
+
     protected $paginationTheme = 'bootstrap';
 
     public function mount()
@@ -45,13 +50,22 @@ class TodoTable extends Component
     private function getTodos(): LengthAwarePaginator
     {
         return Todo::with('category')
-            ->when($this->category_id, function ($q) {
+            ->when($this->category_id, function (Builder $q) {
                 return $q->where('category_id', $this->category_id);
             })
-            ->when($this->status, function ($q) {
+            ->when($this->status, function (Builder $q) {
                 return $q->where('status', $this->status);
             })
-            ->where('author_id', auth()->id())
+            ->when($this->visibility == 'only_mine', function ($q) {
+                return $q->where('author_id', auth()->id());
+            })
+            ->when($this->visibility == 'only_shared', function ($q) {
+                return $q->whereHas('sharedUsers');
+            })
+            ->when($this->visibility == 'all', function ($q) {
+                return $q->whereHas('sharedUsers')
+                    ->orWhere('author_id', auth()->id());
+            })
             ->paginate(10);
     }
 }
