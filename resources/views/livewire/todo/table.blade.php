@@ -19,8 +19,34 @@
                     <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Status</th>
                         <th>Description</th>
                         <th>Category</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <select wire:model="status" class="form-select" name="status" aria-label="All">
+                                <option value="">All</option>
+                                @foreach(\App\TodoStatusEnum::values() as $key=>$value)
+                                    <option value="{{$key}}">{{$value}}</option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th>Description</th>
+                        <th>
+                            <select wire:model="category_id" class="form-select" name="category_id" aria-label="All">
+                                <option value="">All</option>
+                                @foreach($categories as $category)
+                                    <option
+                                            value="{{$category->id}}"
+                                            @selected(old('category_id') == $category->id)
+                                    >{{$category->title}}</option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
