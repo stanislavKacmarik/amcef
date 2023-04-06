@@ -12,6 +12,7 @@ class TodoController extends Controller
 {
     public function __construct(private TodoService $todoService)
     {
+        $this->authorizeResource(Todo::class, 'todo');
     }
 
     /**

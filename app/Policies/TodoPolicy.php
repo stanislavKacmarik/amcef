@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Todo;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class TodoPolicy
 {
@@ -21,7 +20,7 @@ class TodoPolicy
      */
     public function view(User $user, Todo $todo): bool
     {
-        //
+        return $user->id === $todo->author_id;
     }
 
     /**
@@ -37,7 +36,7 @@ class TodoPolicy
      */
     public function update(User $user, Todo $todo): bool
     {
-        //
+        return $user->id === $todo->author_id;
     }
 
     /**
