@@ -23,7 +23,8 @@ class UpdateTodoRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'description' => 'nullable'
+            'description' => 'nullable',
+            'category_id' => 'required|exists:todo_categories,id'
         ];
     }
 }

@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->string('name')->nullable();
             $table->longText('description')
                 ->nullable();
+            $table->foreignId('category_id')
+                ->constrained('todo_categories');
             $table->timestamps();
             $table->softDeletes();
         });

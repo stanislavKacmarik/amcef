@@ -22,6 +22,17 @@
                         <textarea name="description" class="form-control" id="description"
                                   placeholder="Detailed content">{{ old('description') ?? ''}}</textarea>
                     </div>
+                    <div class="form-group mb-2">
+                        <label for="description">Category</label>
+                        <select class="form-select" name="category_id" aria-label="Default select example">
+                            @foreach($categories as $category)
+                                <option
+                                        value="{{$category->id}}"
+                                        @selected(old('category_id') == $category->id)
+                                >{{$category->title}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>

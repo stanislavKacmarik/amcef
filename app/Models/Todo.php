@@ -16,11 +16,17 @@ class Todo extends Model
     protected $fillable = [
         'name',
         'description',
+        'category_id'
     ];
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class,'author_id');
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(TodoCategory::class, 'category_id');
     }
 
 }
