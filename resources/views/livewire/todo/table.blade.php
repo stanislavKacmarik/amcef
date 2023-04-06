@@ -55,7 +55,9 @@
                     @endforeach
                     </tbody>
                 </table>
-
+                <div class="todo-pagination">
+                    {{ $todos->links() }}
+                </div>
             </div>
         </div>
     </div>

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Todo;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -14,8 +13,11 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()
-            ->count(1)
-            ->testEmail()
+            ->count(2)
+            ->sequence(
+                ['email' => 'test@test.com'],
+                ['email' => 'test2@test.com'],
+            )
             ->create();
 
         User::factory()

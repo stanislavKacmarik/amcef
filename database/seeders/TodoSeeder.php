@@ -26,7 +26,7 @@ class TodoSeeder extends Seeder
                     fn(Sequence $sequence) => ['category_id' => TodoCategory::all()->random()],
                 )
             )
-            ->count(10)
+            ->count(30)
             ->create();
 
         Todo::factory()
