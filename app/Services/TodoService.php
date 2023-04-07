@@ -10,16 +10,20 @@ class TodoService
 {
 
 
+    public function __construct(private MailService $mailService)
+    {
+    }
+
     public function store(mixed $validated, int $id): void
     {
         $todo = Todo::make($validated);
         $todo->author_id = $id;
         $todo->save();
-        $this->syncShared($todo, $validated);
-
+        $newEmails = $this->syncShared($todo, $validated);
+        $this->mailService->sendTodoShareEmails($newEmails, $todo);
     }
 
-    private function syncShared($todo, $validated): Collection
+    private function syncShared($todo, $validated): array
     {
         $emails = isset($validated['share']) ?
             \Arr::pluck($validated['share'], 'email') :
@@ -27,11 +31,10 @@ class TodoService
         $oldEmails = $todo->sharedUsers()->pluck('email');
 
         $newEmails = Collection::make($emails)->diff($oldEmails)->unique();
-
         $todo->sharedUsers()->sync(
             User::select('id')->whereIn('email', $emails)->get()
         );
-        return $newEmails;
+        return $newEmails->toArray();
     }
 
     /**
@@ -43,7 +46,9 @@ class TodoService
     {
         $todo = $todo->fill($validated);
         $todo->save();
-        $this->syncShared($todo, $validated);
+        $newEmails = $this->syncShared($todo, $validated);
+
+        $this->mailService->sendTodoShareEmails($newEmails, $todo);
     }
 
     public function delete(Todo $todo)

@@ -1,0 +1,1 @@
+{{$username}} shared with you new task {{$todoName}}, check it at {{ route('todo.edit',['todo'=> $todoId])}}
