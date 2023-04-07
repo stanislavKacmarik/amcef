@@ -26,3 +26,5 @@ FE:
 install `./vendor/bin/sail npm ci`
 
 run `./vendor/bin/sail npm run dev`
+
+Note: use user with email `test@test.com` and password `password` to see all filters in home page with enough data
