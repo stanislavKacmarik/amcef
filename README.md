@@ -14,9 +14,15 @@ laravelsail/php82-composer:latest \
 composer install --ignore-platform-reqs
 ```
 then
-`cp .env.example .env`
+`cp .env.example .env`, 
 modify configuration (at used is database and mail)
-run backend with:
+
+BE - run:
+
 `./vendor/bin/sail up` (or setup alias: `vim ~/.bashrc` => add `alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'`)
-run frontend with:
-`./vendor/bin/sail npm run dev`
+
+FE:
+
+install `./vendor/bin/sail npm ci`
+
+run `./vendor/bin/sail npm run dev`
