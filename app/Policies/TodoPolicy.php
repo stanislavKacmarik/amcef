@@ -12,7 +12,7 @@ class TodoPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,7 @@ class TodoPolicy
      */
     public function view(User $user, Todo $todo): bool
     {
-        return $user->id === $todo->author_id;
+        return true;
     }
 
     /**
@@ -28,7 +28,7 @@ class TodoPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**

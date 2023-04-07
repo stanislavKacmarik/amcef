@@ -28,6 +28,7 @@ class UpdateTodoRequest extends FormRequest
             'description' => 'nullable',
             'category_id' => 'required|exists:todo_categories,id',
             'status' => 'nullable',
+            'share.*.email' => 'exists:users,email'
         ];
     }
 }

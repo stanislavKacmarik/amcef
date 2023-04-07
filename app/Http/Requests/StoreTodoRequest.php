@@ -24,7 +24,8 @@ class StoreTodoRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'nullable',
-            'category_id' => 'required|exists:todo_categories,id'
+            'category_id' => 'required|exists:todo_categories,id',
+            'share.*.email' => 'exists:users,email'
         ];
     }
 }

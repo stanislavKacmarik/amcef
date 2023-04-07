@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Todo;
+use App\Models\User;
+use Illuminate\Support\Collection;
 
 class TodoService
 {
@@ -13,6 +15,23 @@ class TodoService
         $todo = Todo::make($validated);
         $todo->author_id = $id;
         $todo->save();
+        $this->syncShared($todo, $validated);
+
+    }
+
+    private function syncShared($todo, $validated): Collection
+    {
+        $emails = isset($validated['share']) ?
+            \Arr::pluck($validated['share'], 'email') :
+            [];
+        $oldEmails = $todo->sharedUsers()->pluck('email');
+
+        $newEmails = Collection::make($emails)->diff($oldEmails)->unique();
+
+        $todo->sharedUsers()->sync(
+            User::select('id')->whereIn('email', $emails)->get()
+        );
+        return $newEmails;
     }
 
     /**
@@ -24,5 +43,6 @@ class TodoService
     {
         $todo = $todo->fill($validated);
         $todo->save();
+        $this->syncShared($todo, $validated);
     }
 }

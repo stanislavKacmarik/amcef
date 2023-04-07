@@ -45,6 +45,7 @@
                         <label class="form-check-label" for="status"
                         >{{$todo->status->value === \App\TodoStatusEnum::Done->value ? 'Done': 'Mark as done'}}</label>
                     </div>
+                    @include('todo.share-input')
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
