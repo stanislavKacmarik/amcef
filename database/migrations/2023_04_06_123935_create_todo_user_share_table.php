@@ -10,10 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('todo_share', function (Blueprint $table) {
+        Schema::create('todo_user_share', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('todo_id')->constrained('todos');
-            $table->timestamps();
         });
     }
 
@@ -22,6 +21,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('todo_share');
+        Schema::dropIfExists('todo_user_share');
     }
 };

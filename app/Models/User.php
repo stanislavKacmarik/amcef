@@ -58,7 +58,7 @@ class User extends Authenticatable
 
     public function sharedTodos(): BelongsToMany
     {
-        return $this->belongsToMany(Todo::class, 'todo_share');
+        return $this->belongsToMany(Todo::class, 'todo_user_share');
     }
 
 }
