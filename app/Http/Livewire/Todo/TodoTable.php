@@ -42,11 +42,10 @@ class TodoTable extends Component
 
     public function render()
     {
-        return view(
-            'livewire.todo.table',
-            ['todos' => $this->getTodos()]
-        )
-            ->layout('layouts.app');
+        return view('livewire.todo.table', [
+                'todos' => $this->getTodos()
+            ]
+        )->layout('layouts.app');
     }
 
     private function getTodos(): LengthAwarePaginator
@@ -67,12 +66,14 @@ class TodoTable extends Component
                 });
             })
             ->when($this->visibility == 'all', function (Builder $q) {
-                return $q->whereHas('sharedUsers', function (Builder $q) {
-                    $q->where('users.id', auth()->id());
-                })->orWhere('author_id', auth()->id());
+                return $q->where(function (Builder $q) {
+                    $q->whereHas('sharedUsers', function (Builder $q) {
+                        $q->where('users.id', auth()->id());
+                    })->orWhere('author_id', auth()->id());
+                });
             })
             ->orderBy('updated_at', 'DESC')
-            ->when($this->deleted, function (Builder $q){
+            ->when($this->deleted, function (Builder $q) {
                 $q->withTrashed();
             })
             ->paginate(10);
