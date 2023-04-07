@@ -35,7 +35,7 @@ class Todo extends Model
 
     public function sharedUsers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'todo_share');
+        return $this->belongsToMany(User::class, 'todo_user_share');
     }
 
     public function category(): BelongsTo

@@ -2,10 +2,9 @@
 
 namespace App\Http\Livewire\Todo;
 
-use App\Models\Todo;
 use App\Models\TodoCategory;
+use App\Repository\TodoRepository;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
@@ -20,15 +19,21 @@ class TodoTable extends Component
      * @var Collection<TodoCategory>
      */
     public Collection $categories;
+
+    // filters
     public string $category_id = '';
     public string $status = '';
-
     // all, only_shared, only_mine
     public string $visibility = 'all';
-
     public string $deleted = '';
 
     protected $paginationTheme = 'bootstrap';
+    private TodoRepository $todoRepository;
+
+    public function boot(TodoRepository $todoRepository)
+    {
+        $this->todoRepository = $todoRepository;
+    }
 
     public function mount()
     {
@@ -51,32 +56,13 @@ class TodoTable extends Component
 
     private function getTodos(): LengthAwarePaginator
     {
-        return Todo::with(['category', 'author'])
-            ->when($this->category_id, function (Builder $q) {
-                return $q->where('category_id', $this->category_id);
-            })
-            ->when($this->status, function (Builder $q) {
-                return $q->where('status', $this->status);
-            })
-            ->when($this->visibility == 'only_mine', function (Builder $q) {
-                return $q->where('author_id', auth()->id());
-            })
-            ->when($this->visibility == 'only_shared', function (Builder $q) {
-                return $q->whereHas('sharedUsers', function (Builder $q) {
-                    $q->where('users.id', auth()->id());
-                });
-            })
-            ->when($this->visibility == 'all', function (Builder $q) {
-                return $q->where(function (Builder $q) {
-                    $q->whereHas('sharedUsers', function (Builder $q) {
-                        $q->where('users.id', auth()->id());
-                    })->orWhere('author_id', auth()->id());
-                });
-            })
-            ->orderBy('updated_at', 'DESC')
-            ->when($this->deleted, function (Builder $q) {
-                $q->withTrashed();
-            })
-            ->paginate(10);
+        return $this->todoRepository->getWithAdvancedFilter([
+                'category_id' => $this->category_id,
+                'status' => $this->status,
+                'visibility' => $this->visibility,
+                'deleted' => $this->deleted
+            ],
+            auth()->id()
+        );
     }
 }
