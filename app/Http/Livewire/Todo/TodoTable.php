@@ -25,6 +25,8 @@ class TodoTable extends Component
     // all, only_shared, only_mine
     public string $visibility = 'all';
 
+    public string $deleted = '';
+
     protected $paginationTheme = 'bootstrap';
 
     public function mount()
@@ -70,6 +72,9 @@ class TodoTable extends Component
                 })->orWhere('author_id', auth()->id());
             })
             ->orderBy('updated_at', 'DESC')
+            ->when($this->deleted, function (Builder $q){
+                $q->withTrashed();
+            })
             ->paginate(10);
     }
 }

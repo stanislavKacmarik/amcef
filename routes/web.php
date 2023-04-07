@@ -21,6 +21,8 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('', TodoTable::class)->name('todo.index');
     Route::get('todo', TodoTable::class)->name('todo.index');
+    Route::put("todo/{id}/restore", [TodoController::class, 'restore'])
+        ->name('todo.restore');
     Route::resource('todo', TodoController::class, [
         'except' =>
             ['index', 'show']

@@ -22,12 +22,15 @@ namespace App\Models{
  * @property \App\TodoStatusEnum $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\User $author
  * @property-read \App\Models\TodoCategory $category
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $sharedUsers
+ * @property-read int|null $shared_users_count
  * @method static \Database\Factories\TodoFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Todo newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Todo newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Todo onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Todo query()
  * @method static \Illuminate\Database\Eloquent\Builder|Todo whereAuthorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Todo whereCategoryId($value)
@@ -38,6 +41,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Todo whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Todo whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Todo whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Todo withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Todo withoutTrashed()
  * @mixin \Eloquent
  */
 	class IdeHelperTodo {}
@@ -80,6 +85,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Todo> $sharedTodos
+ * @property-read int|null $shared_todos_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Todo> $todos
  * @property-read int|null $todos_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens

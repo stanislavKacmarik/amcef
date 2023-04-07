@@ -11,12 +11,21 @@
     <td>{{$todo->author->id === Auth::user()->id ? 'you' : $todo->author->email }}</td>
     <td>{{$todo->category->title}}</td>
     <td>
-        <a href="{{route('todo.edit', ['todo' => $todo->id])}}" class="bi bi-pencil-square"></a>
-        <i class="bi bi-trash text-danger"
-                data-bs-toggle="modal"
-                data-bs-target="#deleteConfirmModal"
-                data-todo-id="{{$todo->id}}"
-                data-todo-name="{{$todo->name}}">
-        </i>
+        @if($todo->trashed())
+            <i class="bi bi-arrow-clockwise fs-4 text-warning cursor-pointer"
+               data-bs-toggle="modal"
+               data-bs-target="#restoreConfirmModal"
+               data-todo-action="{{route('todo.restore',$todo->id)}}"
+               data-todo-name="{{$todo->name}}">
+            </i>
+        @else
+            <a href="{{route('todo.edit', ['todo' => $todo->id])}}" class="bi bi-pencil-square fs-5 "></a>
+            <i class="bi bi-trash fs-5 text-danger cursor-pointer"
+               data-bs-toggle="modal"
+               data-bs-target="#deleteConfirmModal"
+               data-todo-action="{{route('todo.destroy', ['todo' => $todo->id])}}"
+               data-todo-name="{{$todo->name}}">
+            </i>
+        @endif
     </td>
 </tr>

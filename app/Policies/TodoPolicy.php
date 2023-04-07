@@ -23,13 +23,6 @@ class TodoPolicy
         return true;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        return true;
-    }
 
     /**
      * Determine whether the user can update the model.
@@ -54,14 +47,7 @@ class TodoPolicy
      */
     public function restore(User $user, Todo $todo): bool
     {
-        //
+        return $user->id === $todo->author_id;
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Todo $todo): bool
-    {
-        //
-    }
 }

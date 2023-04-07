@@ -85,4 +85,18 @@ class TodoController extends Controller
             ->with('alert', 'Todo updated!');
 
     }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore(int $id)
+    {
+        $trashedTodo = Todo::onlyTrashed()->where('id', $id)->first();
+        $this->authorize('restore', $trashedTodo);
+        $this->todoService->restore($trashedTodo);
+        return redirect()
+            ->route('todo.index')
+            ->with('alert', 'Todo restored!');
+
+    }
 }

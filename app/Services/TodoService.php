@@ -50,4 +50,9 @@ class TodoService
     {
         $todo->delete();
     }
+
+    public function restore(Todo $todo)
+    {
+        $todo->restore();
+    }
 }

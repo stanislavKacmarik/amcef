@@ -16,12 +16,33 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-footer">
-                    <form method="POST" action="{{ route('todo.index') }}">
+                    <form method="POST" action="">
                         @csrf
                         @method('DELETE')
                         <input type="hidden">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-danger">Delete todo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="restoreConfirmModal" tabindex="-1" aria-labelledby="restoreConfirmModal"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="deleteConfirmModalTitle"> Are you sure, that you want to restore todo <b></b></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" action="">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Restore todo</button>
                     </form>
                 </div>
             </div>
@@ -36,6 +57,12 @@
                         {{ session('status') }}
                     </div>
                 @endif
+                <div class="row form-check float-end">
+                    <label class="form-check-label col ">
+                        <input wire:model="deleted" type="checkbox" name="deleted" class="form-check-input">
+                        Show deleted
+                    </label>
+                </div>
                 <table class="table">
                     <thead>
                     <tr>
@@ -93,15 +120,23 @@
 </div>
 @push('scripts')
     <script>
-        var deleteConfirmModal = document.getElementById('deleteConfirmModal')
+        const deleteConfirmModal = document.getElementById('deleteConfirmModal')
         deleteConfirmModal.addEventListener('show.bs.modal', function (event) {
             const trigger = event.relatedTarget
-            const todoName = trigger.getAttribute('data-todo-name');
-            const todoId = trigger.getAttribute('data-todo-id');
             const modalTitleBold = deleteConfirmModal.querySelector('.modal-title b');
+            modalTitleBold.textContent = trigger.getAttribute('data-todo-name');
             const form = deleteConfirmModal.querySelector('form');
-            modalTitleBold.textContent = todoName;
-            form.action = form.action + '/' + todoId;
+            form.action = trigger.getAttribute('data-todo-action');
         })
+
+        const restoreConfirmModal = document.getElementById('restoreConfirmModal')
+        restoreConfirmModal.addEventListener('show.bs.modal', function (event) {
+            const trigger = event.relatedTarget
+            const modalTitleBold = restoreConfirmModal.querySelector('.modal-title b');
+            modalTitleBold.textContent = trigger.getAttribute('data-todo-name');
+            const form = restoreConfirmModal.querySelector('form');
+            form.action = trigger.getAttribute('data-todo-action')
+        })
+
     </script>
 @endpush
