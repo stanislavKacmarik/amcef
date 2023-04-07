@@ -40,7 +40,6 @@ class TodoRepository
                     })->orWhere('author_id', $userId);
                 });
             })
-            ->orderBy('updated_at', 'DESC')
             ->when($filter['deleted'], function (Builder $q) {
                 $q->withTrashed();
             })
