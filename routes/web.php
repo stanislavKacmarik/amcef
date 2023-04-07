@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\TodoController;
+use App\Http\Livewire\Todo\TodoTable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('', TodoTable::class)->name('todo.index');
+    Route::get('todo', TodoTable::class)->name('todo.index');
+    Route::put("todo/{id}/restore", [TodoController::class, 'restore'])
+        ->name('todo.restore');
+    Route::resource('todo', TodoController::class, [
+        'except' =>
+            ['index', 'show']
+    ]);
 });
