@@ -43,6 +43,7 @@ class TodoRepository
             ->when($filter['deleted'], function (Builder $q) {
                 $q->withTrashed();
             })
+            ->orderBy('id','DESC')
             ->paginate(10);
     }
 }
