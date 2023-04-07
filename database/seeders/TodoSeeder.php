@@ -45,6 +45,19 @@ class TodoSeeder extends Seeder
             )
             ->count(10)
             ->create();
+        $sharedWithFirstTest = Todo::factory()
+            ->state(
+                new Sequence(
+                    fn(Sequence $sequence) => [
+                        'author_id' => User::whereEmail('test2@test.com')->first(),
+                        'category_id' => TodoCategory::all()->random(),
+                        'status' => Arr::random(TodoStatusEnum::cases())
+                    ],
+                )
+            )->count(10)
+            ->create();
+        $firstTestUser = User::whereEmail('test@test.com')->first();
+        $firstTestUser->sharedTodos()->sync($sharedWithFirstTest);
     }
 
 }
