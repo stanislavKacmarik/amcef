@@ -6,6 +6,27 @@
         </div>
     @endif
 
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModal"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="deleteConfirmModalTitle"> Are you sure, that you want to delete todo <b></b></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" action="{{ route('todo.index') }}">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete todo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <div class="row justify-content-center">
@@ -70,3 +91,17 @@
         </div>
     </div>
 </div>
+@push('scripts')
+    <script>
+        var deleteConfirmModal = document.getElementById('deleteConfirmModal')
+        deleteConfirmModal.addEventListener('show.bs.modal', function (event) {
+            const trigger = event.relatedTarget
+            const todoName = trigger.getAttribute('data-todo-name');
+            const todoId = trigger.getAttribute('data-todo-id');
+            const modalTitleBold = deleteConfirmModal.querySelector('.modal-title b');
+            const form = deleteConfirmModal.querySelector('form');
+            modalTitleBold.textContent = todoName;
+            form.action = form.action + '/' + todoId;
+        })
+    </script>
+@endpush

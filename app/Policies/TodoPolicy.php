@@ -45,7 +45,8 @@ class TodoPolicy
      */
     public function delete(User $user, Todo $todo): bool
     {
-        //
+        return $user->id === $todo->author_id ||
+            $todo->sharedUsers()->where('id', $user->id)->exists();
     }
 
     /**

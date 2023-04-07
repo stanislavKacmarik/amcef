@@ -79,6 +79,10 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
-        //
+        $this->todoService->delete($todo);
+        return redirect()
+            ->route('todo.index')
+            ->with('alert', 'Todo updated!');
+
     }
 }

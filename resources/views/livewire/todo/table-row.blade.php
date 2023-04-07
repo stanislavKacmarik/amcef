@@ -11,8 +11,12 @@
     <td>{{$todo->author->id === Auth::user()->id ? 'you' : $todo->author->email }}</td>
     <td>{{$todo->category->title}}</td>
     <td>
-        <a href="{{route('todo.edit', ['todo' => $todo->id])}}">
-            <i class="bi bi-pencil-square"></i>
-        </a>
+        <a href="{{route('todo.edit', ['todo' => $todo->id])}}" class="bi bi-pencil-square"></a>
+        <i class="bi bi-trash text-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteConfirmModal"
+                data-todo-id="{{$todo->id}}"
+                data-todo-name="{{$todo->name}}">
+        </i>
     </td>
 </tr>

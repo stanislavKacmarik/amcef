@@ -45,4 +45,9 @@ class TodoService
         $todo->save();
         $this->syncShared($todo, $validated);
     }
+
+    public function delete(Todo $todo)
+    {
+        $todo->delete();
+    }
 }
