@@ -4,13 +4,14 @@ namespace App\Services;
 
 use App\Models\Todo;
 use App\Models\User;
+use Arr;
 use Illuminate\Support\Collection;
 
 class TodoService
 {
 
 
-    public function __construct(private MailService $mailService)
+    public function __construct(private readonly MailService $mailService)
     {
     }
 
@@ -26,7 +27,7 @@ class TodoService
     private function syncShared($todo, $validated): array
     {
         $emails = isset($validated['share']) ?
-            \Arr::pluck($validated['share'], 'email') :
+            Arr::pluck($validated['share'], 'email') :
             [];
         $oldEmails = $todo->sharedUsers()->pluck('email');
 
@@ -42,7 +43,7 @@ class TodoService
      * @param mixed $validated
      * @return void
      */
-    public function update(Todo $todo, mixed $validated)
+    public function update(Todo $todo, mixed $validated): void
     {
         $todo = $todo->fill($validated);
         $todo->save();
@@ -51,12 +52,12 @@ class TodoService
         $this->mailService->sendTodoShareEmails($newEmails, $todo);
     }
 
-    public function delete(Todo $todo)
+    public function delete(Todo $todo): void
     {
         $todo->delete();
     }
 
-    public function restore(Todo $todo)
+    public function restore(Todo $todo): void
     {
         $todo->restore();
     }

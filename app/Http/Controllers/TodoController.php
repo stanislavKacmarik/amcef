@@ -7,27 +7,24 @@ use App\Http\Requests\UpdateTodoRequest;
 use App\Models\Todo;
 use App\Models\TodoCategory;
 use App\Services\TodoService;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class TodoController extends Controller
 {
-    public function __construct(private TodoService $todoService)
+    public function __construct(private readonly TodoService $todoService)
     {
         $this->authorizeResource(Todo::class, 'todo');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
         $categories = TodoCategory::all();
         return view('todo.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreTodoRequest $request)
+    public function store(StoreTodoRequest $request): RedirectResponse
     {
         $this->todoService->store(
             $request->validated(),
@@ -38,18 +35,7 @@ class TodoController extends Controller
             ->with('alert', 'Todo created!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Todo $todo)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Todo $todo)
+    public function edit(Todo $todo): View
     {
         $categories = TodoCategory::all();
 
@@ -59,10 +45,7 @@ class TodoController extends Controller
         );
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTodoRequest $request, Todo $todo)
+    public function update(UpdateTodoRequest $request, Todo $todo): RedirectResponse
     {
         $this->todoService->update(
             $todo,
@@ -74,22 +57,18 @@ class TodoController extends Controller
             ->with('alert', 'Todo updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Todo $todo)
+    public function destroy(Todo $todo): RedirectResponse
     {
         $this->todoService->delete($todo);
         return redirect()
             ->route('todo.index')
             ->with('alert', 'Todo updated!');
-
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @throws AuthorizationException
      */
-    public function restore(int $id)
+    public function restore(int $id): RedirectResponse
     {
         $trashedTodo = Todo::onlyTrashed()->where('id', $id)->first();
         $this->authorize('restore', $trashedTodo);
@@ -97,6 +76,5 @@ class TodoController extends Controller
         return redirect()
             ->route('todo.index')
             ->with('alert', 'Todo restored!');
-
     }
 }

@@ -1,30 +1,26 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Todo;
 
 use App\Models\Todo;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Send when new user is added into list of users, that shares specific todo.
+ */
 class NewShare extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct(private Todo $todo)
+    public function __construct(private readonly Todo $todo)
     {
-        //
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -32,9 +28,6 @@ class NewShare extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
@@ -47,11 +40,6 @@ class NewShare extends Mailable
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
     public function attachments(): array
     {
         return [];

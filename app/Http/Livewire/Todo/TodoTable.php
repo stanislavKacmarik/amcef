@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Todo;
 
 use App\Models\Todo;
 use App\Models\TodoCategory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -40,7 +41,7 @@ class TodoTable extends Component
         $this->resetPage();
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.todo.table', [
                 'todos' => $this->getTodos()

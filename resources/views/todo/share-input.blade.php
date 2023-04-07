@@ -3,8 +3,8 @@
         <label>Sharing with: </label>
         <div class="fs-4 d-inline-block">
             <i id="addShareButton"
-               class="bi bi-person-plus-fill text-success"
-               title="remove user from sharing"></i>
+               class="bi bi-person-plus-fill text-success cursor-pointer"
+               title="add new user to share"></i>
         </div>
     </div>
     <div id="shared-inputs">
@@ -23,7 +23,7 @@
                         @enderror
                     </div>
                     <div class="f-0 fs-4">
-                        <i class="bi bi-person-fill-x remove-share text-danger"
+                        <i class="bi bi-person-fill-x remove-share text-danger cursor-pointer"
                            title="remove user from sharing"></i>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                                    placeholder="Add user">
                         </div>
                         <div class="f-0 fs-4">
-                            <i class="bi bi-person-fill-x remove-share text-danger"
+                            <i class="bi bi-person-fill-x remove-share text-danger cursor-pointer"
                                title="remove user from sharing"></i>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                        placeholder="Add user">
             </div>
             <div class="f-0 fs-4">
-                <i class="bi bi-person-fill-x remove-share text-danger"
+                <i class="bi bi-person-fill-x remove-share text-danger cursor-pointer"
                    title="remove user from sharing"></i>
             </div>
         </div>
